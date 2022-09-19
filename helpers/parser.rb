@@ -43,11 +43,13 @@ module Helpers
       raise "Errors: #{message}"
     end
 
-    def result
+    def converted_amount
       data = service.currency_rate(from_currency)
       rate = data[:rates][to_currency]
-      converted_amount = amount.to_f * rate
+      amount.to_f * rate
+    end
 
+    def result
       [[from_currency, amount.to_f, to_currency, converted_amount]]
     end
   end
