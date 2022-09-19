@@ -18,6 +18,18 @@ module Helpers
       validation!
     end
 
+    def converted_amount
+      data = service.currency_rate(from_currency)
+      rate = data[:rates][to_currency]
+      amount.to_f * rate
+    end
+
+    def rows_formatted_result
+      [[from_currency, amount.to_f, to_currency, converted_amount]]
+    end
+
+    private
+
     def currencies_list
       list[:rates]&.keys
     end
@@ -41,16 +53,6 @@ module Helpers
 
       message = errors.join('. ')
       raise "Errors: #{message}"
-    end
-
-    def converted_amount
-      data = service.currency_rate(from_currency)
-      rate = data[:rates][to_currency]
-      amount.to_f * rate
-    end
-
-    def result
-      [[from_currency, amount.to_f, to_currency, converted_amount]]
     end
   end
 end

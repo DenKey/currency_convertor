@@ -7,19 +7,21 @@ require_relative 'helpers/parser'
 
 class Converter < Thor
   desc 'parse from_currency, amount, to_currency', 'convert different currencies'
-  method_option :silent, :type => :boolean, :aliases => "-s"
+  method_option :silent, type: :boolean, aliases: '-s'
 
   TABLE_HEADINGS = ['From Currency', 'Amount', 'To Currency', 'Result'].freeze
 
   def parse(from_currency, amount, to_currency)
+    parser = Helpers::Parser.new(from_currency, amount, to_currency)
+
     if options[:silent]
-      puts Helpers::Parser.new(from_currency, amount, to_currency).converted_amount
+      puts parser.converted_amount
     else
       puts 'Converting started...'
 
       puts Terminal::Table.new title: 'Currency converter',
                                headings: TABLE_HEADINGS,
-                               rows: Helpers::Parser.new(from_currency, amount, to_currency).result
+                               rows: parser.rows_formatted_result
 
       puts 'Converting was finished successfully'
     end
