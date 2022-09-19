@@ -24,6 +24,10 @@ Run in console `thor converter:parse USD 1000 HKD -s` to get only value
 
 Run in console `thor converter:parse USD 1000 HKD` to get table
 
+# Spec
+
+Run in console `bundle exec rspec`
+
 
 # Example
 
